@@ -81,19 +81,20 @@ async def simulate_stock_prices():
     while True:
         tracemalloc.start()
 
-        if counter == 30:
-            tes = round(np.random.normal(loc = 0.05, scale = 0.667), 3)
+        if counter == 360:
+            tes = np.random.choice(a = [-2,-1,0,1,2], p = [0.03,0.25,0.4,0.29,0.03])
+            # tes = round(np.random.normal(loc = 0.05, scale = 0.667), 3)
             counter = 0
-            if tes >= -2 and tes <= -1.5:
-                await bot.send_message(chat_id = timka_id, text = 'кризис')
-            elif tes > -1.5 and tes <= - 0.5:
-                await bot.send_message(chat_id = timka_id, text = 'падение')
-            elif tes > -0.5 and tes < 0.5:
-                await bot.send_message(chat_id = timka_id, text = '+- нормально')
-            elif tes > 0 and tes <= 1:
-                await bot.send_message(chat_id = timka_id, text = 'легкий рост')
-            elif tes > 1 and tes <= 2:
-                await bot.send_message(chat_id = timka_id, text = 'бурный рост')
+            # if tes >= -2 and tes <= -1.5:
+            #     await bot.send_message(chat_id = timka_id, text = 'кризис')
+            # elif tes > -1.5 and tes <= - 0.5:
+            #     await bot.send_message(chat_id = timka_id, text = 'падение')
+            # elif tes > -0.5 and tes < 0.5:
+            #     await bot.send_message(chat_id = timka_id, text = '+- нормально')
+            # elif tes > 0 and tes <= 1:
+            #     await bot.send_message(chat_id = timka_id, text = 'легкий рост')
+            # elif tes > 1 and tes <= 2:
+            #     await bot.send_message(chat_id = timka_id, text = 'бурный рост')
 
             await bot.send_message(chat_id = timka_id, text = tes)
 
