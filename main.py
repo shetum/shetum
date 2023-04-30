@@ -411,9 +411,9 @@ async def default_handler(message: types.Message):
 
     # Создаем график
     fig, ax = plt.subplots()
-    ax.plot(dates, stock_data['SBER'],   label=f'Сбер      |{stock_data.iloc[-1, 0]}')
-    ax.plot(dates, stock_data['YNDX'], label=f'Яндекс |{stock_data.iloc[-1, 1]}')
-    ax.plot(dates, stock_data['TSLA'],  label=f'Tesla        |{stock_data.iloc[-1, 2]}')
+    ax.plot(dates, stock_data['SBER'],   label=f'ГлеБанк      |{stock_data.iloc[-1, 0]}')
+    ax.plot(dates, stock_data['YNDX'], label=f'АрсБанк |{stock_data.iloc[-1, 1]}')
+    ax.plot(dates, stock_data['TSLA'],  label=f'Тимкофф        |{stock_data.iloc[-1, 2]}')
     ax.set_xlabel('Дата')
     ax.set_ylabel('Цена акции')
     ax.set_title('График котировок акций')
