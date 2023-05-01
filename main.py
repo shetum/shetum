@@ -54,6 +54,10 @@ chatik_id = -955163522
 jackpot = 1_000
 
 tes = 0
+tes_q = 0
+sber4days = 0
+yndx4days = 0
+tsla4days = 0
 
 def high_change(l, s):
     return np.random.normal(loc=l, scale=s)
@@ -72,35 +76,29 @@ async def send_message():
 
 # Define task to simulate stock prices and save to CSV
 async def simulate_stock_prices():
-    global stock_data, price_one, price_two, price_three, tes
+    global stock_data, price_one, price_two, price_three, tes, sber4days, yndx4days, tsla4days, tes_q
     stock_data = pd.DataFrame(columns=['date', 'SBER', 'YNDX','TSLA'])
     pd.set_option('display.float_format', lambda x: '{:.5f}'.format(x))
 
     counter = 0
     tick = 1
+    q = 90
     while True:
         tracemalloc.start()
 
         if counter == 360:
-            tes = np.random.choice(a = [-2,-1,0,1,2], p = [0.03,0.25,0.4,0.29,0.03])
-            # tes = round(np.random.normal(loc = 0.05, scale = 0.667), 3)
-            counter = 0
-            # if tes >= -2 and tes <= -1.5:
-            #     await bot.send_message(chat_id = timka_id, text = 'кризис')
-            # elif tes > -1.5 and tes <= - 0.5:
-            #     await bot.send_message(chat_id = timka_id, text = 'падение')
-            # elif tes > -0.5 and tes < 0.5:
-            #     await bot.send_message(chat_id = timka_id, text = '+- нормально')
-            # elif tes > 0 and tes <= 1:
-            #     await bot.send_message(chat_id = timka_id, text = 'легкий рост')
-            # elif tes > 1 and tes <= 2:
-            #     await bot.send_message(chat_id = timka_id, text = 'бурный рост')
+            # tes = np.random.choice(a = [-15,-10,-6,-2,2,6,10,15], p = [2,3,8,12,15,41,15,4])
+            tes = np.random.normal(loc = 6, scale = 5)
+            tes_q = tes ** (1 / 4)
 
-            await bot.send_message(chat_id = timka_id, text = tes)
+        if q == 90:
+            sber4days = np.random.normal(loc = tes_q, scale = 0.1)
+            yndx4days = np.random.normal(loc = tes_q, scale = 0.15)
+            tsla4days = np.random.normal(loc = tes_q, scale = 0.2)
 
-        price_change_SBER = round(high_change(tes * 1 + 0.01, 1) * 0.01, 3)
-        price_change_YNDX = round(high_change(tes * 1.1 + 0.02, 2) * 0.01, 3)
-        price_change_TSLA = round(high_change(tes * 1.2 + 0.03, 3) * 0.01, 3)
+        price_change_SBER = round(np.random.normal(sber4days, 0.001) * 0.01, 3)
+        price_change_YNDX = round(np.random.normal(yndx4days, 0.002) * 0.01, 3)
+        price_change_TSLA = round(np.random.normal(tsla4days, 0.003) * 0.01, 3)
 
         price_SBER = round(price_one * (1 + price_change_SBER), 5)      
         price_YNDX = round(price_two * (1 + price_change_YNDX), 5) 
@@ -115,7 +113,7 @@ async def simulate_stock_prices():
 
         # Save the DataFrame to CSV
         stock_data.to_csv('stock_data.csv', index=False, sep='\t')
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.1)
         counter += 1
         tick += 1
         # Отображение статистики
